@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var usedWords = [String]()
     @State private var rootWord = ""
     @State private var newWord = ""
+    @State private var score = 0
     
     @State private var errorTitle = ""
     @State private var errorMessage = ""
@@ -35,6 +36,10 @@ struct ContentView: View {
                         }
                     }
                 }
+                
+                Section {
+                    Text("Your score is: \(score)")
+                }
             }
             .navigationTitle(rootWord)
             .onAppear(perform: startGame)
@@ -46,8 +51,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button("Restart") {
-                        startGame()
-                        usedWords = [String]()
+                        restart()
                     }
                 }
             }
@@ -83,6 +87,8 @@ struct ContentView: View {
             return
         }
         
+        addScore(word: answer)
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
@@ -98,6 +104,10 @@ struct ContentView: View {
             }
         }
         fatalError("Could not load start.txt from Bundle.")
+    }
+    
+    func addScore(word: String) {
+        score += word.count
     }
     
     func isOriginal(word: String) -> Bool {
@@ -141,6 +151,12 @@ struct ContentView: View {
         errorMessage = message
         showingError = true
     }
+        
+        func restart() {
+            startGame()
+            usedWords = [String]()
+            score = 0
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {
