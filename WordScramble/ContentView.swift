@@ -43,6 +43,14 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button("Restart") {
+                        startGame()
+                        usedWords = [String]()
+                    }
+                }
+            }
         }
     }
     
