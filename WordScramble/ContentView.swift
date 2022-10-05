@@ -65,6 +65,16 @@ struct ContentView: View {
             return
         }
         
+        guard aboveThree(word: answer) else {
+            wordError(title: "Word is to short.", message: "Please use more than 2 characters!")
+            return
+        }
+        
+        guard isRoot(word: answer) else {
+            wordError(title: "Can't be root word.", message: "Please pick a different word!")
+            return
+        }
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
@@ -84,6 +94,17 @@ struct ContentView: View {
     
     func isOriginal(word: String) -> Bool {
         !usedWords.contains(word)
+    }
+    
+    func aboveThree(word: String) -> Bool {
+        word.count > 2
+    }
+    
+    func isRoot(word: String) -> Bool {
+        if word == rootWord {
+            return false
+        }
+        return true
     }
     
     func isPossible(word: String) -> Bool {
